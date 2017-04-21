@@ -1,0 +1,90 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <!-- Vue 2 -->
+    <!-- <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.2.6/vue.js"></script> -->
+    <!-- <script type="text/javascript" src="./dist/vue-color-2.0.7.js"></script> -->
+
+    <!-- Vue 1 -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vue/1.0.28/vue.js"></script>
+    <script type="text/javascript" src="./dist/vue-color-0.0.4.js"></script>
+  </head>
+  <body>
+    <div id="app">
+      <button @click="toggleColorPicker">Show color picker</button>
+      <!-- Vue 2 -->
+      <!-- <chrome-picker v-show="colorPickerShown" v-model="colors"></chrome-picker> -->
+
+      <!-- Vue 1 -->
+      <chrome-picker v-show="colorPickerShown" :colors="colors" v-ref:chrome></chrome-picker>
+    </div>
+    <script type="text/javascript">
+    var defaultProps = {
+      hex: '#194d33',
+      hsl: {
+        h: 150,
+        s: 0.5,
+        l: 0.2,
+        a: 1
+      },
+      hsv: {
+        h: 150,
+        s: 0.66,
+        v: 0.30,
+        a: 1
+      },
+      rgba: {
+        r: 25,
+        g: 77,
+        b: 51,
+        a: 1
+      },
+      a: 1
+    }
+
+    window.vm = new Vue({
+      el: '#app',
+      components: {
+        'chrome-picker': VueColor.Chrome,
+      },
+      data: {
+        colors: defaultProps,
+        colorPickerShown: true
+      },
+      methods: {
+        toggleColorPicker() {
+          const current = this.colorPickerShown
+          this.colorPickerShown = !current
+        }
+      },
+      ready: function() {
+        const input = this.$refs.chrome.$el.querySelector('input')
+        input.setAttribute('readonly', true)
+      }
+    })
+    </script>
+    <style type="text/css">
+      .c-chrome .color-wrap {
+        display: none;
+      }
+      .c-chrome .sliders .hue-wrap {
+        height: 16px;
+        margin-bottom: 0;
+      }
+      .c-hue .picker {
+        margin-top: 3px;
+      }
+      .c-chrome .sliders .alpha-wrap {
+        display: none;
+      }
+      .c-chrome .editable-input > .label {
+        display: none;
+      }
+      .c-chrome .toggle-btn {
+        display: none;
+      }
+    </style>
+  </body>
+</html>
